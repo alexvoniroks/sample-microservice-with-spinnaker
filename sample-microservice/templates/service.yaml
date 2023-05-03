@@ -3,10 +3,7 @@ kind: Service
 metadata:
   name: {{ include "sample-microservice.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "sample-microservice.name" . }}
-    helm.sh/chart: {{ include "sample-microservice.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- include "sample-microservice.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -15,5 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: {{ include "sample-microservice.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- include "sample-microservice.selectorLabels" . | nindent 4 }}
